@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="MAV VTC Farm Monitor">
+  <title>MAV VTC Farm Monitor</title>
+  <link rel="icon" type="image/x-icon" href="./favicon.ico">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./enhancements.css">
+
+
+</head>
+<body>
+<div id="mav-monitor" class="mav-monitor">
+  <header class="monitor-header">
+    <div class="monitor-brand">
+      <div class="monitor-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div>
+        <div class="monitor-eyebrow">MAV VTC FARM MONITOR</div>
+        <h1 id="monitor-room-name">Loading VTC Farm…</h1>
+      </div>
+    </div>
+    <div class="monitor-header-status">
+      <div id="monitor-health-pill" class="health-pill status-unknown"><i></i><span>Connecting</span></div>
+      <div class="monitor-clock"><strong id="monitor-time">--:--:--</strong><span id="monitor-date">-- --- ----</span></div>
+    </div>
+  </header>
+
+  <nav class="monitor-tabs" aria-label="VTC Farm monitoring sections">
+    <button class="monitor-tab is-active" data-tab="overview"><span class="tab-icon">⌂</span>Overview</button>
+    <button class="monitor-tab" data-tab="alerts"><span class="tab-icon">!</span>Alerts <span id="monitor-alert-badge" class="tab-badge" hidden>0</span></button>
+    <button class="monitor-tab" data-tab="devices"><span class="tab-icon">▦</span>Devices</button>
+    <button class="monitor-tab" data-tab="routes"><span class="tab-icon">⇄</span>Routes</button>
+    <button class="monitor-tab" data-tab="commands"><span class="tab-icon">⌘</span>Commands</button>
+    <button class="monitor-tab poc-hidden" data-tab="dsp" aria-hidden="true" tabindex="-1"><span class="tab-icon">≋</span>DSP</button>
+    <button class="monitor-tab" data-tab="logs"><span class="tab-icon">≡</span>Logs <span id="monitor-log-badge" class="tab-badge" hidden>0</span></button>
+    <button class="monitor-tab" data-tab="state"><span class="tab-icon">↕</span>State &amp; Changes</button>
+    <button class="monitor-tab" data-tab="settings"><span class="tab-icon">⚙</span>Settings</button>
+    <div class="monitor-tab-spacer"></div>
+    <button id="monitor-assistant-button" class="monitor-refresh monitor-assistant-button" title="Open MAV VTC Farm Troubleshooter"><span>✦</span> Troubleshooter</button>
+    <button id="monitor-refresh" class="monitor-refresh" title="Refresh health data"><span>↻</span> Refresh</button>
+  </nav>
+
+  <main class="monitor-main">
+    <section class="monitor-view is-active" data-view="overview">
+      <div id="overview-alert" class="overview-alert status-info">
+        <div class="alert-icon">i</div>
+        <div><strong id="overview-alert-title">Monitoring link starting</strong><span id="overview-alert-copy">Loading the current SystemDefinition from CWS.</span></div>
+      </div>
+
+      <div class="overview-grid overview-primary">
+        <article class="metric-card metric-health">
+          <div class="metric-label">Monitoring State</div>
+          <div class="metric-body"><span id="overview-health-dot" class="big-status-dot status-unknown"></span><div><strong id="overview-health">Connecting</strong><small id="overview-health-detail">Waiting for CWS</small></div></div>
+        </article>
+        <article class="metric-card"><div class="metric-label">CWS</div><div class="metric-value"><span id="overview-cws-dot" class="status-dot status-unknown"></span><strong id="overview-cws">Unknown</strong></div><small id="overview-cws-detail">No heartbeat yet</small></article>
+        <article class="metric-card"><div class="metric-label">Farm Topology</div><div class="metric-value"><span id="overview-dsp-dot" class="status-dot status-info"></span><strong id="overview-dsp">Read Only</strong></div><small id="overview-dsp-detail">NVX inventory from live SystemDefinition</small></article>
+        <article class="metric-card"><div class="metric-label">Configuration</div><div class="metric-value"><span id="overview-config-dot" class="status-dot status-unknown"></span><strong id="overview-config">Unknown</strong></div><small id="overview-config-detail">SystemDefinition not loaded</small></article>
+      </div>
+
+      <div class="overview-grid overview-secondary">
+        <article class="info-panel">
+          <div class="panel-heading"><div><span class="panel-kicker">FARM</span><h2>System Summary</h2></div><span id="summary-updated" class="panel-meta">Never updated</span></div>
+          <div id="summary-grid" class="summary-grid"></div>
+        </article>
+        <article class="info-panel">
+          <div class="panel-heading"><div><span class="panel-kicker">HEALTH</span><h2>Subsystems</h2></div><span class="panel-meta">Config + live CWS</span></div>
+          <div id="subsystem-list" class="subsystem-list"></div>
+        </article>
+      </div>
+
+      <article class="info-panel overview-wide codec-reservation-panel">
+        <div class="panel-heading"><div><span class="panel-kicker">VTC FARM</span><h2>Codec Reservations</h2></div><span id="codec-reservation-updated" class="panel-meta">Waiting for runtime state</span></div>
+        <div id="codec-reservation-grid" class="codec-reservation-grid">
+          <div class="empty-state">Waiting for MAV SDK reservation state…</div>
+        </div>
+      </article>
+
+      <article class="info-panel overview-wide farm-field-panel">
+        <div class="panel-heading"><div><span class="panel-kicker">LEGACY EISC</span><h2>Guided Field Validation</h2><p class="farm-field-copy">Mission-critical read-only validation workflow. The controls below only mark browser evidence and technician actions; they do not send commands to the VTC Farm or legacy room.</p></div><span id="farm-field-updated" class="panel-meta">Waiting for Farm status</span></div>
+
+        <details id="farm-test-bubble" class="farm-collapse-bubble" open>
+          <summary class="farm-collapse-summary">
+            <div><span class="panel-kicker">FIELD TEST</span><strong>Test Session</strong><small>Guided validation, technician markers, workflow, and evidence export</small></div>
+            <span id="farm-test-collapse-meta" class="farm-collapse-meta">No test active</span>
+          </summary>
+          <div class="farm-collapse-body">
+            <div class="farm-field-toolbar farm-test-toolbar">
+              <div class="farm-selected-room"><span>SELECTED ROOM</span><strong id="farm-test-selected-room">All rooms</strong></div>
+              <label>Legacy room evidence<select id="farm-room-evidence"><option value="unknown">Not checked yet</option><option value="program-log">Program log available</option><option value="debugger">Debugger / Test Manager only</option><option value="none">No room-side logging found</option></select></label>
+              <button id="farm-field-start">Start test session</button>
+              <button id="farm-field-mark-request" disabled>Mark VTC request now</button>
+              <button id="farm-field-mark-release" disabled>Mark release now</button>
+              <button id="farm-field-end" disabled>End session</button>
+              <button id="farm-field-export">Export evidence JSON</button>
+              <button id="farm-field-summary">Export result summary</button>
+              <span id="farm-field-session" class="farm-field-session">No local test session active</span>
+            </div>
+            <details class="farm-advisor-bubble" open>
+              <summary class="farm-advisor-summary"><div><span class="panel-kicker">FIELD ADVISOR</span><strong>Resident Engineer Guidance</strong><small>Deterministic guidance derived from live Farm telemetry and the current test sequence</small></div><span id="farm-advisor-confidence" class="farm-collapse-meta">Waiting for test</span></summary>
+              <div class="farm-advisor-body">
+                <div class="farm-advisor-hero">
+                  <div><span class="farm-guidance-label">WHAT I AM SEEING</span><strong id="farm-advisor-seeing">No active room test.</strong><p id="farm-advisor-seeing-detail">Start a test session to begin live interpretation.</p></div>
+                  <div><span class="farm-guidance-label">WHAT TO DO NEXT</span><strong id="farm-guidance-action">Select one legacy room and start a test session.</strong><p id="farm-guidance-detail">The workflow will evaluate the Farm state automatically as the field technician performs the physical room actions.</p></div>
+                </div>
+                <div class="farm-advisor-grid">
+                  <section class="farm-advisor-card"><span class="farm-guidance-label">WHY</span><strong id="farm-advisor-why">No recommendation yet</strong><p id="farm-advisor-why-detail">The explanation will identify the telemetry supporting the recommendation.</p></section>
+                  <section class="farm-advisor-card"><span class="farm-guidance-label">DO NOT TROUBLESHOOT YET</span><strong id="farm-advisor-dont">Nothing blocked</strong><p id="farm-advisor-dont-detail">The advisor will identify downstream systems that have not yet been reached.</p></section>
+                  <section id="farm-escalation-card" class="farm-advisor-card neutral"><span class="farm-guidance-label">ESCALATION</span><strong id="farm-escalation-title">No stop condition detected</strong><p id="farm-escalation-detail">Waiting for an active test session.</p></section>
+                </div>
+                <div class="farm-advisor-tools">
+                  <button id="farm-field-baseline" disabled>Capture baseline</button>
+                  <button id="farm-field-save-good" disabled>Save as known-good pattern</button>
+                  <button id="farm-field-export">Export Complete Evidence</button>
+                  <span id="farm-advisor-baseline-state">No baseline captured</span>
+                </div>
+                <div class="farm-advisor-compare">
+                  <div><span class="farm-guidance-label">CHANGED SINCE BASELINE</span><div id="farm-advisor-changes" class="farm-advisor-list"><span>No baseline captured.</span></div></div>
+                  <div><span class="farm-guidance-label">KNOWN-GOOD COMPARISON</span><div id="farm-advisor-known-good" class="farm-advisor-list"><span>No known-good pattern saved for this room.</span></div></div>
+                </div>
+              </div>
+            </details>
+            <div class="farm-workflow-layout">
+              <section class="farm-workflow-panel">
+                <div class="farm-workflow-heading"><div><span class="panel-kicker">TEST SEQUENCE</span><h3>Automatic Validation</h3></div><span id="farm-workflow-result" class="farm-workflow-result waiting">NOT STARTED</span></div>
+                <div id="farm-workflow-steps" class="farm-workflow-steps"></div>
+              </section>
+              <section class="farm-timeline-panel">
+                <div class="farm-workflow-heading"><div><span class="panel-kicker">EVIDENCE</span><h3>Session Timeline</h3></div><span id="farm-timeline-count" class="panel-meta">0 events</span></div>
+                <div id="farm-session-timeline" class="farm-session-timeline"><div class="empty-state">Start a test session to capture technician markers and state transitions.</div></div>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details id="farm-rooms-bubble" class="farm-collapse-bubble" open>
+          <summary class="farm-collapse-summary">
+            <div><span class="panel-kicker">LEGACY ROOMS</span><strong>Room Diagnostics</strong><small>Select one room for testing or view every room as an independent collapsible card</small></div>
+            <span id="farm-rooms-collapse-meta" class="farm-collapse-meta">Waiting for Farm status</span>
+          </summary>
+          <div class="farm-collapse-body">
+            <div class="farm-field-toolbar farm-room-toolbar">
+              <label>Room<select id="farm-field-room"><option value="">All rooms</option></select></label>
+            </div>
+            <div id="farm-room-diagnostics" class="farm-room-diagnostics"><div class="empty-state">Waiting for read-only VTC Farm status…</div></div>
+          </div>
+        </details>
+      </article>
+
+      <article class="info-panel overview-wide">
+        <div class="panel-heading"><div><span class="panel-kicker">ATTENTION</span><h2>Issues & Unknowns</h2></div><span id="issue-count" class="panel-meta">0 items</span></div>
+        <div id="issue-list" class="issue-list"></div>
+      </article>
+    </section>
+
+    <section class="monitor-view" data-view="alerts">
+      <div class="view-title-row"><div><span class="panel-kicker">ATTENTION</span><h2>Active Alerts</h2><p>Conditions are generated only from configuration and runtime information MAV can actually observe. Acknowledging an alert does not hide or clear the underlying condition.</p></div><div id="alert-filter-group" class="filter-group"><button class="is-active" data-alert-filter="active">Active</button><button data-alert-filter="unack">Unacknowledged</button><button data-alert-filter="all">All</button></div></div>
+      <div class="alert-summary">
+        <article><span>Active</span><strong id="alert-active-count">0</strong></article>
+        <article><span>Unacknowledged</span><strong id="alert-unack-count">0</strong></article>
+        <article><span>Critical / Error</span><strong id="alert-error-count">0</strong></article>
+        <article><span>Warnings</span><strong id="alert-warn-count">0</strong></article>
+      </div>
+      <div id="alert-list" class="alert-list"></div>
+    </section>
+
+    <section class="monitor-view" data-view="devices">
+      <div class="view-title-row"><div><span class="panel-kicker">INVENTORY</span><h2>Farm Devices</h2><p>Generated from the VTC Farm SystemDefinition delivered by /cws/vtcfarm. Click a device to inspect the values currently exposed by the Farm.</p></div><div id="device-filter-group" class="filter-group"></div></div>
+      <div id="device-grid" class="device-grid"></div>
+    </section>
+
+    <section class="monitor-view" data-view="routes">
+      <div class="view-title-row"><div><span class="panel-kicker">SIGNAL FLOW</span><h2>AV Routes</h2><p>Read-only VTC Farm NVX topology. Encoder and decoder configuration comes directly from the live Farm SystemDefinition.</p></div></div>
+      <div class="routes-layout">
+        <article class="info-panel route-panel"><div class="panel-heading"><div><span class="panel-kicker">SOURCES</span><h2>Encoders</h2></div><span id="route-source-count" class="panel-meta"></span></div><div id="route-sources" class="route-list"></div></article>
+        <div class="route-flow-column"><div class="route-flow-glyph">⇄</div><strong>NVX Fabric</strong><span id="route-fabric-status">Topology loaded</span></div>
+        <article class="info-panel route-panel"><div class="panel-heading"><div><span class="panel-kicker">DESTINATIONS</span><h2>Decoders</h2></div><span id="route-dest-count" class="panel-meta"></span></div><div id="route-destinations" class="route-list"></div></article>
+      </div>
+      <article class="info-panel route-detail-panel"><div class="panel-heading"><div><span class="panel-kicker">DETAILS</span><h2>Stream Configuration</h2></div></div><div id="route-detail-table" class="data-table"></div></article>
+    </section>
+
+    <section class="monitor-view poc-hidden" data-view="dsp" aria-hidden="true">
+      <div class="view-title-row"><div><span class="panel-kicker">AUDIO</span><h2>DSP Health & Feedback</h2><p>Faders and mute controls are discovered from the active room configuration. Values below are driven by CWS subscriptions.</p></div><div id="dsp-connection-pill" class="health-pill status-unknown"><i></i><span>Waiting for feedback</span></div></div>
+      <div id="dsp-summary" class="dsp-summary"></div>
+      <div id="dsp-controls" class="dsp-control-grid"></div>
+      <article class="info-panel dsp-functions-panel"><div class="panel-heading"><div><span class="panel-kicker">FUNCTIONS</span><h2>DSP Device Functions</h2></div></div><div id="dsp-functions" class="data-table"></div></article>
+    </section>
+
+
+    <section class="monitor-view" data-view="commands">
+      <div class="view-title-row"><div><span class="panel-kicker">CONTROL</span><h2>VTC Farm Commands</h2><p>Commands use the existing MAV CWS transport at <code>/cws/vtcfarm/{device}/{capability}/{command}</code>. Legacy EISC behavior remains unchanged.</p></div><button id="farm-command-refresh" class="monitor-tool-button">Refresh status</button></div>
+      
+
+      <article class="info-panel farm-diagnostic-command-panel">
+        <div class="panel-heading">
+          <div><span class="panel-kicker">DIAGNOSTICS / SHARED WITH TOOLBOX</span><h2>VTC Farm Diagnostic Commands</h2><p>These buttons invoke the same Farm diagnostic operations exposed through the Toolbox console commands.</p></div>
+          <span class="panel-meta">Read-only except log level</span>
+        </div>
+        <div class="farm-debug-room-controls">
+          <label>Legacy room<select id="farm-diag-room-select"></select></label>
+          <div class="farm-debug-room-actions">
+            <button id="farm-diag-status">Farm Status</button><button id="farm-diag-room">Room Status</button><button id="farm-diag-eisc">Interface Diagnostics</button><button id="farm-diag-regression">Run Regression</button><button id="farm-diag-dump">Diagnostic Dump</button>
+          </div>
+        </div>
+        <div class="farm-debug-room-controls">
+          <label>Logging<select id="farm-diag-loglevel"><option value="status">Status only</option><option value="normal">Normal</option><option value="verbose">Verbose</option></select></label>
+          <div class="farm-debug-room-actions"><button id="farm-diag-loglevel-apply">Apply / Query Log Level</button></div>
+        </div>
+        <div class="farm-debug-room-note">Console equivalent: <code id="farm-diag-console-equivalent">vtcfarmstatus</code></div>
+        <pre id="farm-diagnostic-output">No diagnostic command issued yet.</pre>
+        <div class="farm-runtime-debugger">
+          <div class="farm-runtime-debugger-heading"><span class="panel-kicker">AUTOMATED SOFTWARE DEBUGGING</span><h3>Runtime Debugger</h3><p>Correlates code-path checkpoints, invariants, exceptions, and room state. Read-only.</p></div>
+          <div class="farm-debug-room-actions"><button id="farm-runtime-diagnose">Automated Diagnosis</button><button id="farm-runtime-trace">Execution Trace</button><button id="farm-runtime-invariants">Invariant Checks</button><button id="farm-runtime-exceptions">Exceptions</button><button id="farm-runtime-full">Full Runtime Debug</button></div>
+          <div class="farm-debug-room-note">Console equivalent: <code id="farm-runtime-console-equivalent">vtcfarmdiagnose &lt;room&gt;</code></div>
+          <pre id="farm-runtime-output">Select a room and run a runtime diagnostic view.</pre>
+        </div>
+      </article>
+
+      <article class="info-panel farm-debug-room-panel">
+        <div class="panel-heading">
+          <div>
+            <span class="panel-kicker">DEBUG / LEGACY EISC SIMULATION</span>
+            <h2>Simulated Room Codec Request</h2>
+            <p>Trigger the same Farm-side Reserve/Release handlers used by a legacy room EISC request. This changes live Farm allocation state and is intended for controlled debugging only.</p>
+          </div>
+          <span class="panel-meta">Explicit operator action</span>
+        </div>
+        <div class="farm-debug-room-controls">
+          <label>Legacy room<select id="farm-debug-room-select"></select></label>
+          <div class="farm-debug-room-actions">
+            <button id="farm-debug-reserve" class="farm-debug-command-button reserve">Simulate Reserve Request</button>
+            <button id="farm-debug-release" class="farm-debug-command-button release">Simulate Release Request</button>
+          </div>
+        </div>
+        <div class="farm-debug-room-note">The VTC Farm log will tag these requests with <code>[DEBUG-CWS]</code> so they cannot be confused with a request received from the physical legacy room.</div>
+      </article>
+      <div class="farm-command-layout">
+        <article class="info-panel"><div class="panel-heading"><div><span class="panel-kicker">ROOMS</span><h2>Codec Control</h2></div><span id="farm-command-status" class="panel-meta">Loading…</span></div><div id="farm-room-command-list" class="farm-room-command-list"></div></article>
+        <article class="info-panel"><div class="panel-heading"><div><span class="panel-kicker">NVX</span><h2>Route Control</h2></div><span class="panel-meta">MAV route API</span></div><div id="farm-route-command-panel" class="farm-route-command-panel"></div></article>
+      </div>
+      <article class="info-panel farm-command-result-panel"><div class="panel-heading"><div><span class="panel-kicker">RESULT</span><h2>Last Command</h2></div></div><pre id="farm-command-result">No command issued yet.</pre></article>
+    </section>
+
+    <section class="monitor-view" data-view="logs">
+      <div class="view-title-row"><div><span class="panel-kicker">DIAGNOSTICS</span><h2>MAV Program Log</h2><p>All retained SDK Logger emissions plus browser monitoring events. Severity and source filters change only what you see; capture remains unfiltered.</p></div><div class="log-actions"><button id="log-clear">Clear view</button><button id="log-download">Export</button></div></div>
+      <div id="mfe-log-status" class="mfe-diagnostic-status"></div>
+      <div class="log-toolbar"><label class="mfe-filter-label">Level through <select id="mfe-log-threshold" class="mfe-field"><option value="7">Trace · all</option><option value="6">Debug</option><option value="5">Verbose</option><option value="4">Information</option><option value="3">Notice</option><option value="2">Warning</option><option value="1">Error</option><option value="0">Critical</option></select></label><label class="mfe-filter-label">Source <select id="mfe-log-source" class="mfe-field"><option value="all">Program + browser</option><option value="program">MAV program</option><option value="browser">Browser monitor</option></select></label><label class="mfe-filter-label">Search <input id="log-search" type="search" placeholder="Filter messages…"></label></div>
+      <div id="mfe-log-meta" class="mfe-log-meta">Waiting for MAV diagnostic stream…</div>
+      <div id="log-list" class="log-list" role="log" aria-live="polite"></div>
+    </section>
+
+    <section class="monitor-view" data-view="state">
+      <div class="view-title-row"><div><span class="panel-kicker">RUNTIME EVIDENCE</span><h2>Object State &amp; Change History</h2><p>Current values and old → new transitions retained by MAV SDK diagnostics. Identical observations do not manufacture false transitions. Entries are read-only.</p></div><div class="log-actions"><button id="mfe-refresh-state">Refresh state</button><button id="mfe-export-evidence">Export evidence</button></div></div>
+      <div id="mfe-diagnostic-status" class="mfe-diagnostic-status"></div>
+      <div class="log-toolbar"><label class="mfe-filter-label">Search object <input id="mfe-state-search" class="mfe-field" type="search" placeholder="Device, control or value…"></label><label class="mfe-filter-label">Changes <select id="mfe-change-filter" class="mfe-field"><option value="all">All</option><option value="recent">Latest 30</option></select></label></div>
+      <div class="mfe-state-layout"><article class="info-panel mfe-state-panel"><div class="panel-heading"><div><span class="panel-kicker">CURRENT</span><h2>Observed State</h2></div><span id="mfe-state-count" class="panel-meta">0 values</span></div><div id="mfe-state-list" class="mfe-state-list"></div></article><article class="info-panel mfe-state-panel"><div class="panel-heading"><div><span class="panel-kicker">JOURNAL</span><h2>Changes</h2></div><span id="mfe-change-count" class="panel-meta">0 changes</span></div><div id="mfe-change-list" class="mfe-change-list"></div></article></div>
+    </section>
+
+
+    <section class="monitor-view" data-view="settings">
+      <div class="view-title-row">
+        <div><span class="panel-kicker">LOCAL PREFERENCES</span><h2>Site Settings</h2><p>Presentation and local assistant settings for this browser only. These settings never alter the VTC Farm, its SystemDefinition, CWS behavior, or processor configuration.</p></div>
+        <button id="mfe-settings-reset" class="monitor-tool-button">Reset preferences</button>
+      </div>
+      <div class="mfe-settings-grid" id="mfe-settings-cards"></div>
+    </section>
+  </main>
+
+  <footer class="monitor-footer">
+    <div><span class="status-dot" id="footer-cws-dot"></span><span id="footer-cws">CWS unknown</span></div>
+    <div>Definition: <strong id="footer-room">—</strong></div>
+    <div>Last heartbeat: <strong id="footer-heartbeat">Never</strong></div>
+    <div class="footer-spacer"></div>
+    <div>MAV VTC Farm Monitor</div>
+  </footer>
+</div>
+  <script src="./app.js"></script>
+  <script src="./enhancements.js"></script>
+</body>
+</html>

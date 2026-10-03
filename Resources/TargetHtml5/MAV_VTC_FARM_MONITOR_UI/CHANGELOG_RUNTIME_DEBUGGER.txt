@@ -1,0 +1,2 @@
+Adds Automated Diagnosis, Execution Trace, Invariant Checks, Exceptions, and Full Runtime Debug to Commands.
+Uses generic vtcfarm/diagnostics. No width/layout breakout changes.

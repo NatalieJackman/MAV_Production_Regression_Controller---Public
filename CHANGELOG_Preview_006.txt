@@ -1,0 +1,9 @@
+MAV Production Regression Controller - Preview 006
+
+- Cloud connectivity is optional. Dropbox/DNS failures no longer imply controller failure; UI reports Cloud unavailable and keeps offline/local workflows ready.
+- Added Offline Bundle browser workflow (.zip).
+- Browser-uploaded bundle is inventoried on the CP4N and exposes CPZ/JSON selectors.
+- Supports a dual-connected operator laptop as an optional transfer boundary without requiring CP4N Internet access.
+- Same bundle can instead arrive through any site-approved offline transfer method.
+- ZIP path traversal, expanded-size and entry-count safety checks added.
+- .NET Framework 4.8 retained.

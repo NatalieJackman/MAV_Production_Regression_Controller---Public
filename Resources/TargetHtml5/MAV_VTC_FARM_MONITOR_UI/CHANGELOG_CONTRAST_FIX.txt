@@ -1,0 +1,19 @@
+Field Operations Contrast Fix
+============================
+
+Issue corrected
+---------------
+Some Field Test / Resident Field Advisor buttons, especially disabled actions such
+as "Export Complete Evidence", could inherit browser/default styling that produced
+very light text on a light background.
+
+Changes
+-------
+- Explicit foreground, background, and border colors for all Field Test buttons.
+- Explicit disabled-state colors; opacity is no longer used as the primary disabled cue.
+- Separate high-contrast dark-mode and day-mode palettes.
+- Explicit hover and keyboard-focus states.
+- Primary actions, technician markers, and Export Complete Evidence receive distinct
+  high-contrast active states.
+
+No Farm, EISC, SDK, routing, or workflow logic was changed.

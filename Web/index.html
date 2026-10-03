@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MAV Regression | Configure · Deploy · Test</title><link rel="stylesheet" href="/cws/regression/ui/styles.css"></head>
+<body data-site-theme="night" data-editor-appearance="mav">
+<div class="shell">
+  <aside class="sidebar">
+    <div class="sideBrand"><span class="brandMark">M</span><div><strong>MAV</strong><small>TEST PLATFORM</small></div></div>
+    <div class="sideCaption">WORKSPACE</div>
+    <nav aria-label="Workspace navigation">
+      <a href="#workspace-target">Target processor</a>
+      <a href="#workspace-package">Package library</a>
+      <a href="#workspace-json">JSON configuration</a>
+      <a href="#workspace-deploy">Deploy &amp; regression</a>
+      <a href="#workspace-tests">Test results</a>
+      <a href="#workspace-console">Target console</a>
+      <a href="#workspace-target-sdk">Target SDK log</a>
+      <a href="#workspace-logs">SDK log</a>
+    </nav>
+    <div class="sidebarFoot"><span class="smallDot"></span> Zero static IPIDs<br><small>Independent controller · Preview 010 Public Demo</small></div>
+  </aside>
+  <div class="shellContent">
+    <header class="topbar">
+      <div class="brandBlock"><div class="eyebrow">MAV / ENGINEERING / VALIDATION</div><h1>Configure · Deploy · Regression</h1><p>One appliance for program delivery, JSON configuration, black-box verification and evidence.</p></div>
+      <div class="headerTools"><span class="chip dirty" title="Privacy-sensitive identifiers and cloud credentials are intentionally omitted from this public demonstration build.">PUBLIC DEMO · PRIVACY SANITIZED</span><label class="inlineSelect">Palette <select id="siteTheme"><option value="night">MAV Night</option><option value="day">MAV Day</option></select></label><div id="globalState" class="state idle">IDLE</div></div>
+    </header>
+    <main>
+  <section class="panel" style="border-left:4px solid var(--yellow)"><strong>Public demonstration build</strong><p class="help">Privacy-sensitive room identifiers, personnel labels, and the Dropbox application key have been removed or replaced. Features that depend on those private values are visibly disabled or use sanitized examples; the regression/deployment architecture is otherwise unchanged.</p></section>
+
+  <section class="summaryGrid" aria-label="Current session summary">
+    <div class="summaryCard"><span>Target</span><strong id="summaryTarget">Not configured</strong><small id="summarySlot">Select a processor and slot</small></div>
+    <div class="summaryCard"><span>Package</span><strong id="summaryPackage">Not staged</strong><small id="summaryPackageDetail">Local upload or cloud cache</small></div>
+    <div class="summaryCard"><span>Workflow</span><strong id="summaryWorkflow">Idle</strong><small id="summaryProgress">0% complete</small></div>
+  </section>
+
+  <div class="workGrid">
+    <section id="workspace-target" class="panel">
+      <div class="panelHead">
+        <div><span class="step">01</span><h2>Target processor</h2></div>
+        <button id="scan" class="ghost small" type="button">Scan slots</button>
+      </div>
+      <div class="formGrid targetGrid">
+        <label>Address<input id="address" placeholder="192.168.1.50"></label>
+        <label>Username<input id="username" autocomplete="username" value="admin"></label>
+        <label>Password<input id="password" type="password" autocomplete="current-password"></label>
+        <label>Program slot<input id="slot" type="number" min="1" max="10" value="2"></label>
+      </div>
+      <div class="optionRow">
+        <label class="check"><input id="https" type="checkbox"><span>HTTPS CWS</span></label>
+        <label class="check"><input id="untrusted" type="checkbox"><span>Allow self-signed HTTPS</span></label>
+        <label class="check dangerCheck"><input id="labOverride" type="checkbox"><span>LAB override: replace without recoverable CPZ</span></label>
+        <label class="inlineSelect">Mode<select id="mode"><option value="full">Full regression</option><option value="health">Health check</option></select></label>
+        <label class="inlineSelect">Test profile<select id="targetProfile"><option value="auto">Use staged package</option><option value="farm">Existing VTC Farm</option><option value="room">Existing MAV Room</option></select></label>
+      </div>
+      <div class="actions"><button id="configure" class="primary" type="button">Configure target</button></div>
+      <pre id="slotOutput" class="miniConsole">Target not configured.</pre>
+    </section>
+
+    <section id="workspace-package" class="panel packagePanel">
+      <div class="panelHead"><div><span class="step">02</span><h2>Package source</h2></div><span class="chip">CPZ + JSON</span></div>
+      <div class="sourceTabs" role="tablist" aria-label="Package source">
+        <button id="tabCloud" class="tab active" type="button">Cloud CurrentBuild</button>
+        <button id="tabOffline" class="tab" type="button">Offline bundle</button>
+        <button id="tabLocal" class="tab" type="button">Local upload</button>
+      </div>
+
+      <div id="cloudSource" class="sourcePane active">
+        <div class="cloudStatusRow">
+          <div><strong>Cloud CurrentBuild · privacy-disabled demo</strong><small>The production build supports Dropbox OAuth/PKCE. The application key is intentionally omitted from this public repository.</small></div>
+          <div class="cloudChips"><span id="dropboxAuthChip" class="chip neutral">Not authorized</span><span id="cloudStatusChip" class="chip neutral">Not synced</span></div>
+        </div>
+        <div class="cloudAuthCard">
+          <div><strong>Cloud authorization disabled in public demo</strong><p>This demonstrational source intentionally omits the real Dropbox application identifier. Use Offline Bundle or Local Upload to exercise the same staging and regression path.</p></div>
+          <div class="actions cloudAuthActions"><button id="connectDropbox" class="primary" type="button">Connect Dropbox</button><button id="disconnectDropbox" class="ghost" type="button">Disconnect</button></div>
+        </div>
+        <div class="actions"><button id="syncCloud" type="button">Sync CurrentBuild inventory</button><button id="refreshCloud" class="ghost" type="button">Refresh status</button></div>
+        <div class="formGrid two">
+          <label>Cloud CPZ<select id="cloudCpz"><option value="">Authorize and sync to populate…</option></select></label>
+          <label>Cloud configuration<select id="cloudConfig"><option value="">Authorize and sync to populate…</option></select></label>
+        </div>
+        <div class="actions"><button id="stageCloud" class="primary" type="button">Download + stage selected package</button></div>
+        <p id="cloudMeta" class="help">Sync reads Dropbox metadata only. The selected CPZ and JSON are downloaded and Dropbox-content-hash verified when you stage them.</p>
+      </div>
+
+
+      <div id="offlineSource" class="sourcePane">
+        <div class="cloudStatusRow">
+          <div><strong>Offline regression bundle</strong><small>Upload a ZIP from the browser. The laptop may obtain it by any approved path; the CP4N itself does not need Internet access.</small></div>
+          <div><span id="offlineStatusChip" class="chip neutral">No bundle</span></div>
+        </div>
+        <div class="offlineTransferNote"><strong>Browser transfer boundary</strong><p>If the operator laptop can reach both an approved package source and this processor, download the bundle on the laptop and upload it here. If it cannot, bring the same ZIP by the site's approved offline transfer process. Deployment and regression are identical afterward.</p></div>
+        <label>Regression bundle ZIP<input id="offlineBundle" type="file" accept=".zip,application/zip"></label>
+        <div class="actions"><button id="importOffline" class="primary" type="button">Import offline bundle</button><button id="refreshOffline" class="ghost" type="button">Refresh inventory</button></div>
+        <div class="formGrid two">
+          <label>Bundle CPZ<select id="offlineCpz"><option value="">Import a bundle to populate…</option></select></label>
+          <label>Bundle configuration<select id="offlineConfig"><option value="">Import a bundle to populate…</option></select></label>
+        </div>
+        <div class="actions"><button id="stageOffline" class="primary" type="button">Stage selected package</button></div>
+        <p id="offlineMeta" class="help">No Internet connection is required by the Regression Controller for this workflow.</p>
+      </div>
+
+      <div id="localSource" class="sourcePane">
+        <div class="formGrid two">
+          <label>Program CPZ<input id="cpz" type="file" accept=".cpz"></label>
+          <label>SystemDefinition / configuration<input id="config" type="file" accept=".json,application/json"></label>
+        </div>
+        <div class="actions"><button id="upload" class="primary" type="button">Upload + analyze</button></div>
+      </div>
+
+      <div id="packageCard" class="package muted">No package staged.</div>
+    </section>
+  </div>
+
+
+  <section id="workspace-json" class="panel jsonPanel" aria-labelledby="jsonTitle">
+    <div class="panelHead">
+      <div><span class="step">03</span><h2 id="jsonTitle">Configuration workspace</h2><p>View, edit and validate the staged SystemDefinition before deployment.</p></div>
+      <span id="jsonStatus" class="chip neutral" role="status">No staged JSON</span>
+    </div>
+    <div class="editorToolbar">
+      <button id="jsonLoad" class="ghost small" type="button">Load staged JSON</button>
+      <button id="jsonFormat" class="ghost small" type="button">Format</button>
+      <button id="jsonValidate" class="ghost small" type="button">Validate</button>
+      <button id="jsonRevert" class="ghost small" type="button">Revert edits</button>
+      <label class="inlineSelect">Appearance<select id="editorAppearance"><option value="mav">MAV syntax</option><option value="vscode">VS Code syntax</option></select></label>
+      <div class="toolbarPush"></div>
+      <button id="jsonDownload" class="ghost small" type="button">Export JSON</button>
+      <button id="jsonSave" class="primary small" type="button">Save to staging</button>
+    </div>
+    <div class="editorNote">Changes stay in the Regression Controller’s staged copy. They will <strong>not</strong> overwrite cloud files or the target processor until a separately confirmed deployment. Unsaved edits block Deploy &amp; Test.</div>
+    <div class="editorGrid">
+      <div class="editorWrap">
+        <div class="editorCaption">EDITABLE JSON <span id="editorFile">—</span></div>
+        <div class="codeFrame"><pre id="jsonLines" class="lineNumbers" aria-hidden="true">1</pre><textarea id="jsonEditor" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-label="SystemDefinition JSON editor" placeholder="Stage a CPZ and configuration to edit JSON…"></textarea></div>
+      </div>
+      <div class="editorWrap">
+        <div class="editorCaption">SYNTAX PREVIEW <span id="editorSize">0 bytes</span></div>
+        <pre id="jsonPreview" class="syntaxPreview" aria-label="JSON syntax preview">No staged configuration loaded.</pre>
+      </div>
+    </div>
+    <p id="jsonFeedback" class="editorFeedback" aria-live="polite">Load a staged configuration to begin.</p>
+  </section>
+
+  <section id="workspace-deploy" class="panel deployPanel">
+    <div class="panelHead"><div><span class="step">04</span><h2>Deploy & regression</h2></div><span id="phaseBadge" class="chip neutral">Idle</span></div>
+    <p class="bodyCopy">The controller operates independently in its own program slot. It preflights and backs up the chosen target slot, stages the CPZ/edited JSON/HTML5 resources, and runs external CWS contract checks. A native target self-test, when available, is not a substitute for independent end-to-end validation.</p>
+    <label class="confirm"><input id="confirmDestructive" type="checkbox"><span>I understand that Deploy + Full Workflow may archive, stop, replace, and reload the selected program slot and write configuration / HTML5 resources to the target processor.</span></label>
+    <label class="confirm maintenance"><input id="confirmMaintenance" type="checkbox"><span>I confirm an authorized maintenance window for Full Regression. External test actions may reserve Farm codecs or change active AV routing. Health Check remains read-only.</span></label>
+    <div class="actions"><button id="deployTest" class="success" type="button">Deploy + Full Workflow</button><button id="testOnly" class="ghost" type="button">Test loaded program</button><button id="abort" class="danger" type="button">Abort</button></div>
+    <div class="progress"><div id="bar"></div></div>
+    <div id="phase" class="phase">Idle</div>
+    <p class="help">Health Check = read-only external probes. Full Regression = controlled CWS stimulus and assertions; requires no active real-room assignment. Actual MAVE/EISC media compatibility still needs an approved field fixture.</p>
+  </section>
+
+  <div class="resultsGrid">
+    <section id="workspace-tests" class="panel">
+      <div class="panelHead"><div><h2>Regression checks</h2><p>Live PASS / WARN / FAIL / SKIP results</p></div><div class="headActions"><button id="refresh" class="ghost small" type="button">Refresh</button><button id="exportReport" class="ghost small" type="button">Export report</button></div></div>
+      <div id="checks" class="checksList"><div class="empty">No checks yet.</div></div>
+    </section>
+
+    <section id="workspace-console" class="panel consolePanel">
+      <div class="panelHead"><div><h2>Target console</h2><p>Persistent SSH shell · live processor output · operator commands</p></div><div class="headActions"><span id="consoleState" class="chip neutral">Disconnected</span><button id="connectConsole" class="ghost small" type="button">Connect</button><button id="disconnectConsole" class="ghost small" type="button">Disconnect</button><button id="clearConsole" class="ghost small" type="button">Clear</button><button id="exportConsole" class="ghost small" type="button">Export</button></div></div>
+      <div class="presetBar">
+        <button data-preset="state" type="button">State snapshot</button>
+        <button data-preset="registry" type="button">PROGREG</button>
+        <button data-preset="appstat" type="button">APPSTAT</button>
+        <button data-preset="comments" type="button">Slot comments</button>
+        <button data-preset="errors" type="button">Current errors</button>
+        <button data-preset="load" class="warnAction" type="button">PROGLOAD slot</button>
+        <button data-preset="kill" class="dangerAction" type="button">KILLPROG slot</button>
+      </div>
+      <pre id="targetConsole" class="terminal" aria-live="polite">Target console ready. Configure a target to begin.</pre>
+      <form id="consoleForm" class="commandRow">
+        <label class="srOnly" for="consoleCommand">Console command</label>
+        <input id="consoleCommand" placeholder="Type a Crestron console command…" autocomplete="off">
+        <button id="sendConsole" type="submit">Send</button>
+      </form>
+      <p class="help">Commands are sent to the currently configured target. Destructive preset buttons require confirmation.</p>
+    </section>
+  </div>
+
+  <section id="workspace-target-sdk" class="panel logPanel targetSdkPanel">
+    <div class="panelHead">
+      <div><h2>Target application · live SDK log</h2><p>Independent CWS journal observer · source sequence / restart epoch / regression-step correlation</p></div>
+      <div class="headActions">
+        <span id="targetSdkState" class="chip neutral" role="status">Not connected</span>
+        <button id="connectTargetSdk" class="ghost small" type="button">Observe loaded program</button>
+        <button id="disconnectTargetSdk" class="ghost small" type="button">Stop</button>
+        <button id="exportTargetSdk" class="ghost small" type="button">Export target log</button>
+        <button id="exportCombined" class="ghost small" type="button">Export combined</button>
+      </div>
+    </div>
+    <p id="targetSdkMeta" class="help">Starts automatically for a regression run. To observe an already-loaded program, configure the target and select a Farm or Room test profile, then press Observe.</p>
+    <div class="logFilters"><label class="check"><input type="checkbox" id="targetSdkAutoScroll" checked> Follow latest</label>
+      <label>Filter events<input id="targetSdkFilter" placeholder="Filter by message, level, or test step" autocomplete="off"></label></div>
+    <pre id="targetSdkLog" class="terminal targetSdkTerminal" aria-label="Target SDK diagnostic log">Waiting for target SDK diagnostic CWS feed…</pre>
+    <p class="help">Source timestamps are preserved; displayed order uses observation time, epoch and sequence. This is not the SSH console and does not use target-native self-test. Missing diagnostics produce a warning, never a false test PASS.</p>
+  </section>
+
+  <section id="workspace-logs" class="panel logPanel">
+    <div class="panelHead"><div><h2>Controller / SDK log</h2><p id="logMeta">SDK-backed session log · live CWS view</p></div><button id="exportLog" class="ghost small" type="button">Export log</button></div>
+    <pre id="log" class="terminal controllerTerminal">Controller UI loaded.</pre>
+  </section>
+
+    </main>
+  </div>
+</div>
+
+<div id="dropboxAuthModal" class="modalBackdrop" hidden>
+  <section class="modalCard" role="dialog" aria-modal="true" aria-labelledby="dropboxAuthTitle">
+    <div class="modalHead"><div><span class="eyebrow">MAV · DROPBOX AUTHORIZATION</span><h2 id="dropboxAuthTitle">Paste the Dropbox authorization code</h2></div><button id="closeDropboxAuth" class="modalClose" type="button" aria-label="Close authorization dialog">×</button></div>
+    <p>Dropbox has been opened in another browser tab. Sign in if needed, click <strong>Allow</strong>, then copy the short single-use authorization code Dropbox displays and paste it below.</p>
+    <div class="authSteps"><span>1 · Allow MAV Utility</span><span>2 · Copy code</span><span>3 · Paste here</span></div>
+    <label>Authorization code<input id="dropboxAuthCode" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Paste Dropbox code…"></label>
+    <input id="dropboxAuthSession" type="hidden">
+    <p id="dropboxAuthFeedback" class="help" aria-live="polite">This code is single-use. The Regression Controller never displays or logs the resulting access/refresh tokens.</p>
+    <div class="modalActions"><a id="reopenDropboxAuth" class="buttonLink" target="_blank" rel="noopener">Open Dropbox again</a><div class="toolbarPush"></div><button id="cancelDropboxAuth" class="ghost" type="button">Cancel</button><button id="submitDropboxAuth" class="primary" type="button">Authorize controller</button></div>
+  </section>
+</div>
+<script src="/cws/regression/ui/app.js"></script></body></html>

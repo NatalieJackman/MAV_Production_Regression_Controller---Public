@@ -1,0 +1,20 @@
+VTC Farm Monitor UI - Full Width Field Operations Readability Pass
+=================================================================
+
+Purpose
+-------
+The previous readability pass increased type size, but the Guided Field Validation area remained visually compressed. This pass changes the layout itself.
+
+Changes
+-------
+- Guided Field Validation now breaks out to nearly the full browser viewport width.
+- Resident Field Advisor primary guidance is stacked vertically instead of split into narrow columns.
+- What I Am Seeing and What To Do Next are larger operational callouts.
+- Why, Do Not Troubleshoot Yet, and Escalation are full-width stacked cards.
+- Automatic Validation and Session Timeline are stacked instead of sharing horizontal space.
+- Larger toolbar controls, workflow steps, timeline entries, and room diagnostics.
+- Mobile/narrow-window fallback preserves normal contained layout.
+
+Behavior
+--------
+Presentation only. No VTC Farm control, EISC, routing, SDK, CWS command, or diagnostic decision logic was changed.

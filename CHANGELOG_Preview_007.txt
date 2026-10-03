@@ -1,0 +1,4 @@
+Preview 008
+- Fixed CP4N staged JSON handoff by normalizing StagedConfigurationService to System.IO.
+- Added explicit JSON handoff failure state in UI.
+- Preview label updated.

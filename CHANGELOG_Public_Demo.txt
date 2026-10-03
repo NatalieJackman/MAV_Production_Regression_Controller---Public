@@ -1,0 +1,9 @@
+Preview 010 Public Demonstration Sanitization
+
+- Preserved Preview 010 deployment/regression logic.
+- Removed the production Dropbox OAuth App Key.
+- Cloud CurrentBuild is explicitly disabled and labeled as privacy-disabled in this public build.
+- Replaced private room examples with generic room labels.
+- Replaced personal field-workflow names with generic role labels.
+- Regenerated EmbeddedWeb.cs and TargetWebAssets.cs from the sanitized readable assets so private strings are not retained in embedded/Base64 copies.
+- Added PUBLIC_DEMO_PRIVACY.md and .gitignore.

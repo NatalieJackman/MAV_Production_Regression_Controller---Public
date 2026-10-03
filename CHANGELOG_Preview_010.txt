@@ -1,0 +1,8 @@
+Preview 010 recovery snapshot (source-only, not CP4N validated):
+- Added LocalFileIO CrestronIO staged-asset operations.
+- Added commit preflight that independently reopens staged CPZ/config and verifies hashes BEFORE KILLPROG.
+- Program lifecycle now polls PROGREG after asynchronous KILLPROG/PROGLOAD; requires two authoritative matching observations.
+- Destructive modified flag is set before KILLPROG and before subsequent target writes so rollback remains armed after transport errors.
+- Shared operation lock blocks package/config and manual console write endpoints while workflow executes.
+- Existing Preview 009 regression checks preserved.
+- Follow-up: test deployment and rollback end-to-end on bench CP4N; source-level packaging is not a hardware pass.

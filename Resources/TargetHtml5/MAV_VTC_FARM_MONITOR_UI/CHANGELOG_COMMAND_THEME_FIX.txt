@@ -1,0 +1,19 @@
+MAV VTC Farm Monitor - Command Theme Fix
+2026-10-01
+
+Styling-only update.
+
+Fixed:
+- Codec Control cards/inputs/selects/buttons now use dark theme at night.
+- Route Control selects/buttons now use dark theme at night.
+- Diagnostic Command buttons are readable in night mode.
+- Diagnostic and debug selects follow the active site theme.
+- Disabled diagnostic/control buttons retain readable contrast.
+- Explicit day-mode light palette retained for the same controls.
+
+Not changed:
+- No command logic changes.
+- No CWS/API changes.
+- No layout changes.
+- No Overview width changes.
+- No Guided Field Validation width changes.

@@ -1,0 +1,24 @@
+MAV VTC FARM MONITOR UI - Collapsible Field Workflow Update
+2026-09-30
+
+Presentation-only update. No VTC Farm program or SDK changes are required.
+
+Changes
+-------
+1. Field Test controls moved above room selection into a dedicated collapsible Test Session bubble.
+2. Room selection and live room diagnostics moved into a separate collapsible Room Diagnostics bubble.
+3. Room selector retains the All rooms option.
+4. When All rooms is selected, every returned legacy room is rendered as its own independently collapsible bubble.
+5. A single selected room also uses the same expandable room bubble presentation.
+6. Room expansion state is retained across the recurring VTC Farm telemetry refresh so opened rooms do not snap closed every few seconds.
+7. Collapsed room headers continue to show room name, EISC state, codec assignment summary, and current Farm state so important status remains visible without expanding the room.
+8. Test Session header shows the active/last room and workflow result while collapsed.
+9. Room Diagnostics header shows selected room or all-room counts while collapsed.
+10. Read-only mission-critical behavior is unchanged. Technician marker buttons still do not issue Farm or room commands.
+
+Deployment
+----------
+Replace the contents of:
+/html/mav-vtc-farm-monitor-ui
+
+with the contents of this MAV_VTC_FARM_MONITOR_UI folder, then hard-refresh the browser if cached assets are still displayed.

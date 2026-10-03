@@ -1,0 +1,18 @@
+MAV VTC Farm Monitor - AI Regression Command Fix
+October 1, 2026
+
+- "Run a regression test" is now a deterministic action, not a troubleshooting interpretation.
+- Added a Regression tests quick-action chip to the VTC Farm Advisor.
+- Executes a read-only VTC Farm regression suite against live /cws/vtcfarm endpoints:
+  * VTC Farm status
+  * SystemDefinition
+  * diagnostics summary
+  * diagnostics log feed
+  * diagnostics state feed
+  * diagnostics change feed
+  * codec inventory sanity
+  * legacy room inventory / EISC registration sanity when exposed
+  * recent Critical/Error scan
+- Returns PASS / FAIL / WARN counts and attaches each test result as chat evidence.
+- Does not issue Reserve, Release, route, dial, or other state-changing commands.
+- No CSS, Overview width, Resident Engineer palette, or field-workflow layout changes.

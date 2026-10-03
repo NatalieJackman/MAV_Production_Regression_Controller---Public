@@ -1,0 +1,5 @@
+MAV VTC Farm Monitor - Shared Console/Monitor Diagnostics
+2026-10-01
+Adds UI access to vtcfarmstatus, vtcfarmroom, vtcfarmeisc, vtcfarmloglevel, vtcfarmregression and vtcfarmdump.
+Advisor regression now invokes the Farm-native regression endpoint.
+Debug Reserve/Release remains in the separate state-changing panel.

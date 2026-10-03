@@ -1,0 +1,13 @@
+Mission-Critical Field Workflow Changes
+---------------------------------------
+- Converted Field Validation into a guided automatic validation sequence.
+- Added sticky pass states for each transaction phase.
+- Added NEXT ACTION guidance for the onsite technician.
+- Added explicit STOP / NEEDS ENGINEERING REVIEW escalation state.
+- Added browser-local technician markers for VTC Request and Release.
+- Added Legacy room evidence method selector.
+- Added session timeline of state changes, passes, stops, and technician actions.
+- Added result badge: NOT STARTED / IN PROGRESS / PASS / STOPPED / INCOMPLETE.
+- Expanded JSON evidence export with workflow, markers, timeline, and result.
+- Added standalone TXT result-summary export.
+- No new Farm commands and no control-path change.

@@ -1,0 +1,16 @@
+MAV Production Regression Controller — Preview 003
+2026-10-02
+
+- UI redesign matches MAV System Definition Night/Day palette, sidebar, cards and optional VS Code JSON syntax.
+- Integrated staged SystemDefinition JSON workspace (load, view, edit, format, validate, revert, save, export) with SHA-256 concurrency guard and original staged backup.
+- Staged configuration save recalculates package classification/hash. Live target remains unchanged until confirmed deployment.
+- JSON dirty state blocks deploy/test until saved or reverted.
+- Test Loaded Program supports explicit Farm/Room profile without CPZ upload; independent CWS requests exercise externally visible contracts.
+- Removed invocation of target's own native regression from independent pass. Health Check remains read-only.
+- Full Regression requires explicit maintenance acknowledgment; pre-deploy hash verification added.
+- Added staged identity/JSON structural tests, existing live target console, live controller SDK log, exportable regression report.
+- Target framework changed to .NET Framework 4.8 (user's Visual Studio setting).
+- CrestronIO transcript file calls rewritten to FileStream to address CS0117 errors in Preview 002.
+- Zero static IPIDs; selectable target slot; protected self-target controller slot.
+
+Source-ready only: this environment cannot compile Crestron CPZ or validate real CP4N network/CWS behavior.

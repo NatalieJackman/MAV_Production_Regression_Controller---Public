@@ -1,0 +1,23 @@
+MAV Production Regression Controller — Preview 009 Corrected
+
+CP4N filesystem / SFTP correction
+----------------------------------
+- Restored the CrestronIO stream contract for processor-local files passed to SFTP.
+- ProcessorTransport now uses:
+  - Crestron.SimplSharp.CrestronIO.File
+  - Crestron.SimplSharp.CrestronIO.FileStream
+  - Crestron.SimplSharp.CrestronIO.FileMode
+  - Crestron.SimplSharp.CrestronIO.FileAccess
+  - Crestron.SimplSharp.CrestronIO.FileShare
+  - Crestron.SimplSharp.CrestronIO.Directory
+- Removed the reintroduced System.IO.FileStream usage from ProcessorTransport.
+- Added LocalPaths as the canonical controller-local path definition.
+- All MAV Regression Controller local roots now use /user/MAVRegression/... rather than Windows-style \\User\\MAVRegression\\....
+- Local paths are normalized before CrestronIO/SFTP access.
+- .NET Framework target remains v4.8.
+
+Important architecture rule
+---------------------------
+Do not replace CrestronIO FileStream with System.IO.FileStream in SFTP upload/download code. Crestron SFTP expects Crestron.SimplSharp.CrestronIO.Stream-compatible objects. Likewise, keep CP4N-local paths canonicalized to /user/... so staging and SFTP resolve the same physical filesystem location.
+
+All Preview 009 regression-test additions are retained.

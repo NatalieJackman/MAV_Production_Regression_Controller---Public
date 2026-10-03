@@ -1,0 +1,19 @@
+MAV VTC FARM MONITOR UI - Readability Pass
+==========================================
+
+Purpose
+-------
+Improve the Resident Field Advisor and Guided Field Validation screens for fast field scanning on a laptop without changing any Farm-side behavior or control path.
+
+Changes
+-------
+- Increased typography throughout the guided test workflow.
+- Increased spacing and touch/click target sizes for test controls.
+- Made What I Am Seeing and What To Do Next the strongest visual elements.
+- Increased Why / Do Not Troubleshoot Yet / Escalation card readability.
+- Enlarged test-sequence rows and status text.
+- Increased Session Timeline text and spacing.
+- Increased room diagnostic and route text sizes.
+- Rebalanced the workflow/timeline columns for easier scanning.
+- Added responsive breakpoints so guidance stacks earlier on field laptops.
+- No VTC Farm, SDK, EISC, routing, or command behavior changed.

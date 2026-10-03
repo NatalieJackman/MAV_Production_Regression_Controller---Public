@@ -1,0 +1,8 @@
+MAV Production Regression Controller - Preview 008
+
+- Fixed CP4N deployment failure where staged CPZ/JSON files created through System.IO were reopened through CrestronIO during SFTP upload.
+- ProcessorTransport now uses System.IO streams consistently for all controller-local upload/download artifacts.
+- Added an explicit local-file existence check and byte count before SFTP upload for clearer diagnostics.
+- Target SDK evidence file handling now uses System.IO consistently with the evidence/session paths.
+- The target SDK 404 seen before a deploy-first target program starts remains a waiting condition, not a regression failure; the observer reconnects after CWS becomes available.
+- Retains .NET Framework 4.8 and zero static IPIDs.

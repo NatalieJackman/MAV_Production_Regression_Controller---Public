@@ -1,0 +1,26 @@
+MAV Production Regression Controller — Preview 002
+
+UI
+- Rebuilt browser UI with clearer target/package/workflow summaries.
+- Added separate Cloud CurrentBuild and Local Upload package sources.
+- Added responsive regression results, target console, and controller log panels.
+
+TARGET CONSOLE
+- Added persistent SSH shell session for live target output.
+- Added manual console command entry.
+- Added PROGREG, APPSTAT, slot comments, current error, PROGLOAD and KILLPROG presets.
+- Added live target-console polling, clear and export.
+- ProcessorTransport mirrors its own deployment console traffic into the same transcript.
+
+CLOUD CURRENTBUILD
+- Matched the Dropbox shared CurrentBuild source configured by MAV Deployment Utility Preview 145.
+- Added read-only shared-folder ZIP synchronization with no stored Dropbox credentials on the CP4N.
+- Added safe ZIP extraction and local cloud cache inventory.
+- Added cloud CPZ/config selection and staging into the existing package analyzer.
+- Local package upload remains available.
+
+CORE
+- Added TargetConsoleTranscript and LiveConsoleSession.
+- Added CloudPackageService.
+- Added UploadStore.StageExisting for cloud-cached package files.
+- Added CWS routes for cloud status/sync/stage and target-console connect/status/send/preset/poll/export.

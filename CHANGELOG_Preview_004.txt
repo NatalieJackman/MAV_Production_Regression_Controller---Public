@@ -1,0 +1,7 @@
+Preview 004 — Target MAV SDK diagnostic CWS observer
+- Separate persistent target-SDK journal, cursor polling, journal restart/epoch tracking.
+- Correlate external regression calls with target source-sequence windows and error-level warnings.
+- Live panel with manual observe/stop, filter, follow, raw and combined exports.
+- Full evidence persists to JSONL + combined transcript and JSON report.
+- No static IPIDs; .NET Framework 4.8; read-only observation.
+- Fixed inherited duplicate MaintenanceRequest type and duplicate staged hash guard.

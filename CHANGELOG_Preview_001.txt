@@ -1,0 +1,20 @@
+MAV Production Regression Controller — Preview 001
+2026-10-02
+
+- Standalone 4-Series regression/deployment controller.
+- No static IPIDs.
+- Self-target support with controller-slot protection.
+- Selectable target program slot 1–10.
+- CPZ + SystemDefinition upload through CWS browser UI.
+- Room/VTC Farm package detection and SHA-256 identity.
+- SSH console + SFTP deployment transport.
+- Complete program-directory download and verified recreated CPZ before occupied-slot replacement.
+- Automatic rollback attempt after failed modified deployment.
+- Embedded MAV target monitor assets deployed automatically.
+- CWS readiness polling.
+- Farm Health Check and Full Regression.
+- Full Farm regression refuses synthetic reservations while real rooms are assigned.
+- Multi-codec concurrent reserve/release and immediate-reuse regression.
+- Room read-only regression scaffold pending declarative active-test profile.
+- SDK-backed controller logging, live log view and text export.
+- Timestamped evidence metadata and target diagnostics capture.

@@ -1,0 +1,11 @@
+MAV Production Regression Controller - Preview 005
+
+- Dropbox OAuth PKCE browser/code-paste authorization flow matching MAV Utility Preview 145.
+- Same Dropbox App Key and read-only metadata/content scopes.
+- Persistent refresh token on CP4N; short-lived access token refresh.
+- Dropbox API inventory sync replaces anonymous shared-folder ZIP download.
+- On-demand CPZ/JSON download at Stage time.
+- Dropbox content_hash and byte-size verification before staging.
+- Web modal opens Dropbox authorization and requests the single-use code.
+- Explicit Connect/Reconnect/Disconnect state.
+- Tokens excluded from web responses and logs.

@@ -2,9 +2,8 @@
 
 A standalone Crestron 4-Series deployment and regression controller used to demonstrate an AI-assisted engineering workflow in which architecture, deployment safety, independent verification, and human release judgment remain explicit.
 
-> **Public demonstration / privacy-sanitized build**
->
-> The production Dropbox application key, private room identifiers, personal field-workflow labels, and private MAV logging binary have been removed or replaced. **Cloud CurrentBuild is intentionally disabled** in this public copy. Offline Bundle and Local Upload remain available and follow the normal staging, deployment, and regression path. See [`PUBLIC_DEMO_PRIVACY.md`](PUBLIC_DEMO_PRIVACY.md).
+> **Public demonstration / privacy-sanitized build**  
+> The production Dropbox application key, private room identifiers, and personal field-workflow labels have been removed or replaced. **Cloud CurrentBuild is intentionally disabled** in this public copy. Offline Bundle and Local Upload remain available and follow the normal staging, deployment, and regression path. See [`PUBLIC_DEMO_PRIVACY.md`](PUBLIC_DEMO_PRIVACY.md).
 
 ## What this demonstrates
 
@@ -63,14 +62,11 @@ The production version supports Dropbox OAuth/PKCE for Cloud CurrentBuild. This 
 
 Bundled target HTML5 examples use generic room/operator labels. Embedded C# web manifests were regenerated from those sanitized assets so the removed identifiers are not retained inside Base64 data.
 
-The private MAV logging assembly is not included in the public repository. The public demonstration controller keeps its own session/evidence log and mirrors controller events to Crestron's built-in `ErrorLog`, avoiding a dependency on a private binary.
-
 ## Build environment
 
 - .NET Framework **4.8**
 - Crestron Simpl# / 4-Series SDK packages **2.22.15**
 - Intended for CP4N / compatible 4-Series Simpl# Pro development environments
-- No private MAV assemblies are required by the public demonstration controller
 
 Restore the Crestron NuGet packages and compile in the normal Simpl# Pro toolchain. This repository does not include a compiled CPZ.
 

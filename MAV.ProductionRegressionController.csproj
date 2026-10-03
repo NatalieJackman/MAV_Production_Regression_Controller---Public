@@ -20,6 +20,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget><DebugType>pdbonly</DebugType><Optimize>true</Optimize><OutputPath>bin\Release\</OutputPath><DefineConstants>TRACE</DefineConstants><WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Logging"><HintPath>Libraries\Logging.dll</HintPath></Reference>
     <Reference Include="SimplSharpPro" Condition="Exists('packages\Crestron.SimplSharp.SDK.ProgramLibrary.2.22.15\lib\net481\SimplSharpPro.exe')"><HintPath>packages\Crestron.SimplSharp.SDK.ProgramLibrary.2.22.15\lib\net481\SimplSharpPro.exe</HintPath></Reference>
     <Reference Include="SimplSharpPro" Condition="!Exists('packages\Crestron.SimplSharp.SDK.ProgramLibrary.2.22.15\lib\net481\SimplSharpPro.exe')"><HintPath>packages\Crestron.SimplSharp.SDK.ProgramLibrary.2.22.15\lib\net47\SimplSharpPro.exe</HintPath></Reference>
     <Reference Include="SimplSharpHelperInterface" Condition="Exists('packages\Crestron.SimplSharp.SDK.Library.2.22.15\lib\net481\SimplSharpHelperInterface.dll')"><HintPath>packages\Crestron.SimplSharp.SDK.Library.2.22.15\lib\net481\SimplSharpHelperInterface.dll</HintPath></Reference>
